@@ -252,9 +252,9 @@ Validation for GNOME Shell integration remains primarily manual inside a GNOME S
 
 ## CI / Release Packaging
 
-[`.github/workflows/ci.yml`](/home/danm/Git/meetingtime/.github/workflows/ci.yml) contains the shared formatting, linting, and test jobs, which run in parallel and cache `/var/cache/apt/archives` for the test job.
+[`.github/workflows/ci.yml`](/home/danm/Git/meetingtime/.github/workflows/ci.yml) contains the shared formatting, linting, and test jobs, which run in parallel and use `awalsh128/cache-apt-pkgs-action` for the test job.
 [`.github/workflows/run_tests.yml`](/home/danm/Git/meetingtime/.github/workflows/run_tests.yml) calls the reusable CI workflow on every branch push.
-[`.github/workflows/build_release.yml`](/home/danm/Git/meetingtime/.github/workflows/build_release.yml) calls the reusable CI workflow, then packages the extension and publishes tagged releases after a `v*` tag push, caching `/var/cache/apt/archives` for packaging.
+[`.github/workflows/build_release.yml`](/home/danm/Git/meetingtime/.github/workflows/build_release.yml) calls the reusable CI workflow, then packages the extension and publishes tagged releases after a `v*` tag push, using `awalsh128/cache-apt-pkgs-action` for packaging.
 
 `mise run build-extension` copies `src/` into a temporary build directory and removes `lib/tests` before packaging so test-only JavaScript is not shipped in the extension zip.
 

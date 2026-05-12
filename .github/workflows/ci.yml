@@ -41,21 +41,13 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Cache apt packages
-        uses: actions/cache@v4
-        with:
-          path: /var/cache/apt/archives
-          key: apt-${{ runner.os }}-${{ hashFiles('.github/workflows/*.yml') }}
-
       - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends \
-            gir1.2-ecal-2.0 \
-            gir1.2-edataserver-1.2 \
-            gjs \
-            gnome-shell \
+        uses: awalsh128/cache-apt-pkgs-action@v1.6.0
+        with:
+          packages: >-
+            gir1.2-ecal-2.0 gir1.2-edataserver-1.2 gjs gnome-shell
             libglib2.0-bin
+          version: 1.0
 
       - name: Install mise
         uses: jdx/mise-action@v2
