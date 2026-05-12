@@ -1,0 +1,97 @@
+[env]
+MEETINGTIME_BUILD_DIR = "/tmp/meetingtime_build"
+MEETINGTIME_INSTALL_DIR = "{{ env.HOME }}/.local/share/gnome-shell/extensions/meetingtime@danmoz"
+
+[tools]
+jq = "latest"
+prettier = "3.5.3"
+yamllint = "1.37.1"
+
+[tasks.tests]
+run = """
+gjs -m {{ config_root}}/src/lib/tests/presentation.test.js
+gjs -m {{ config_root}}/src/lib/tests/calendarBackend.test.js
+gjs -m {{ config_root}}/src/lib/tests/scheduler.test.js
+"""
+
+[tasks.lint]
+description = "Run a fast syntax check over the JavaScript sources"
+usage = 'flag "--check" help="Validate without rewriting files"'
+run = """
+echo "[lint] running syntax and YAML checks"
+find src -name '*.js' -print | sort | while IFS= read -r file; do
+    echo "[lint] $file"
+    node --check "$file"
+done
+
+echo "[lint] .github/workflows"
+yamllint --strict -f parsable -c .yamllint .github/workflows
+"""
+
+[tasks.format]
+description = "Format repository files with Prettier"
+usage = 'flag "--check" help="Exit non-zero if formatting is invalid"'
+run = """
+if [ -n "${MISE_ARG_CHECK:-}" ]; then
+    prettier --check src .github/workflows README.md AGENTS.md package.json
+else
+    prettier --write src .github/workflows README.md AGENTS.md package.json
+fi
+"""
+
+[tasks.pre-commit-checks]
+description = "Run formatting and lint checks before commits"
+run = """
+mise run format --check
+mise run lint --check
+"""
+
+[tasks.build-extension]
+run = """
+rm -rf {{ env.MEETINGTIME_BUILD_DIR }}
+cp -R src/ {{ env.MEETINGTIME_BUILD_DIR }}
+rm -rf {{ env.MEETINGTIME_BUILD_DIR }}/lib/tests
+gnome-extensions pack --force --extra-source={{ env.MEETINGTIME_BUILD_DIR }}/lib --extra-source={{ env.MEETINGTIME_BUILD_DIR }}/sounds {{ env.MEETINGTIME_BUILD_DIR }}
+"""
+
+[tasks.install-extension]
+description = "Build an installable extension package"
+run = """
+rm -rf {{ env.MEETINGTIME_INSTALL_DIR }} 2>/dev/null || true
+rm -rf ~/.cache/meetingtime@danmoz.shell-extension 2>/dev/null || true
+gnome-extensions install --force meetingtime@danmoz.shell-extension.zip
+"""
+
+[tasks.uninstall-extension]
+description = "Uninstall the extension"
+run = """
+rm -rf {{ env.MEETINGTIME_INSTALL_DIR }} 2>/dev/null || true
+rm -rf ~/.cache/meetingtime@danmoz.shell-extension 2>/dev/null || true
+rm -rf ~/.cache/meetingtime 2>/dev/null || true
+#dconf reset -f /org/gnome/shell/extensions/meetingtime/ || true
+"""
+
+[tasks.debug-extension]
+description = "Install the extension and start a nested GNOME Shell debug session"
+usage = 'flag "--reinstall" help="Remove saved settings, cache, and installed extension before starting"'
+depends = ["build-extension", "install-extension"]
+run = """
+# Requires `sudo dnf install mutter-devkit`
+dbus-run-session -- gnome-shell --devkit 2>&1 | tee session.log
+"""
+
+[tasks.bump-release]
+description = "Bump the extension version, commit it, tag it, and push"
+run = """
+version=$(jq -r '.version + 1' src/metadata.json)
+tmp_file=$(mktemp)
+trap 'rm -f "$tmp_file"' EXIT
+
+jq ".version = ${version}" src/metadata.json > "$tmp_file"
+
+mv "$tmp_file" src/metadata.json
+git add src/metadata.json
+git commit -m "Bump release to v${version}"
+git tag "v${version}"
+git push origin "v${version}"
+"""

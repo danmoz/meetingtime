@@ -1,0 +1,11 @@
+---
+name: run_tests
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml

@@ -1,0 +1,8 @@
+.idea/
+.zed/
+.agents/
+.codex/
+temp.txt
+session.log
+*.shell-extension.zip
+src/schemas/gschemas.compiled

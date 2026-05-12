@@ -1,0 +1,69 @@
+---
+name: build_release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  package:
+    name: Package Extension
+    runs-on: ubuntu-latest
+    needs: ci
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Cache apt packages
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt/archives
+          key: apt-${{ runner.os }}-${{ hashFiles('.github/workflows/*.yml') }}
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            gir1.2-ecal-2.0 \
+            gir1.2-edataserver-1.2 \
+            gjs \
+            gnome-shell \
+            libglib2.0-bin
+
+      - name: Install mise
+        uses: jdx/mise-action@v2
+
+      - name: Package extension
+        run: mise run build-extension
+
+      - name: Upload extension package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: meetingtime-shell-extension
+          path: meetingtime@danmoz.shell-extension.zip
+          if-no-files-found: error
+
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: package
+
+    steps:
+      - name: Download extension package artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: meetingtime-shell-extension
+          path: .
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: meetingtime@danmoz.shell-extension.zip

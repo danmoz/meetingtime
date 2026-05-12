@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.meetingtime"
+          path="/org/gnome/shell/extensions/meetingtime/">
+
+    <key name="enabled" type="b">
+      <default>true</default>
+      <summary>Enable alerts</summary>
+      <description>Whether event alerts are currently enabled.</description>
+    </key>
+
+    <key name="panel-position" type="s">
+      <default>'right'</default>
+      <choices>
+        <choice value='left'/>
+        <choice value='center'/>
+        <choice value='right'/>
+      </choices>
+      <summary>Indicator position</summary>
+      <description>Which GNOME Shell panel box should contain the MeetingTime indicator.</description>
+    </key>
+
+    <key name="alert-minutes-before" type="i">
+      <range min="0" max="60"/>
+      <default>1</default>
+      <summary>Alert lead time (minutes)</summary>
+      <description>How many minutes before an event starts the overlay should appear.</description>
+    </key>
+
+    <key name="default-snooze-minutes" type="i">
+      <range min="1" max="60"/>
+      <default>5</default>
+      <summary>Default snooze duration (minutes)</summary>
+      <description>Default number of minutes to snooze an alert.</description>
+    </key>
+
+    <key name="exclude-all-day-events" type="b">
+      <default>true</default>
+      <summary>Exclude all-day events</summary>
+      <description>Whether all-day events should be ignored when scheduling alerts.</description>
+    </key>
+
+    <key name="alert-horizon-hours" type="i">
+      <range min="1" max="48"/>
+      <default>48</default>
+      <summary>Refresh window (hours)</summary>
+      <description>How far ahead to query events when refreshing.</description>
+    </key>
+
+    <key name="refresh-interval-minutes" type="i">
+      <range min="1" max="60"/>
+      <default>1</default>
+      <summary>Refresh interval (minutes)</summary>
+      <description>How frequently to refresh calendar data.</description>
+    </key>
+
+    <key name="force-refresh-request" type="s">
+      <default>''</default>
+      <summary>Force refresh request token</summary>
+      <description>Internal token used to request an immediate calendar refresh from the preferences window.</description>
+    </key>
+
+    <key name="no-events-label" type="s">
+      <default>'All clear'</default>
+      <summary>No events label</summary>
+      <description>Label shown by the indicator when there are no upcoming events.</description>
+    </key>
+
+    <key name="enabled-calendar-uids" type="as">
+      <default>[]</default>
+      <summary>Enabled calendar source UIDs</summary>
+      <description>List of calendar source UIDs that may trigger alerts. An empty list means all calendars are disabled.</description>
+    </key>
+
+    <key name="alert-sound-file" type="s">
+      <default>'Notification.ogg'</default>
+      <summary>Alert sound file</summary>
+      <description>Filename of the bundled sound file used for alert playback. Empty means no sound.</description>
+    </key>
+  </schema>
+</schemalist>

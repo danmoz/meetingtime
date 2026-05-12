@@ -1,0 +1,130 @@
+.meetingtime-indicator-label {
+  max-width: 280px;
+  padding: 0;
+}
+
+.meetingtime-indicator-content {
+  spacing: 6px;
+}
+
+.meetingtime-indicator-icon {
+  icon-size: 14px;
+}
+
+.meetingtime-status-item-button-content {
+  spacing: 6px;
+}
+
+.meetingtime-status-item-button-icon {
+  icon-size: 14px;
+}
+
+.meetingtime-disabled-message-label {
+  max-width: 280px;
+  padding: 2px 0;
+  text-align: center;
+}
+
+.meetingtime-status-item .button {
+  padding: 6px 12px;
+  min-height: 24px;
+  min-width: 0;
+}
+
+.meetingtime-footer-row {
+  spacing: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  min-height: 28px;
+}
+
+.meetingtime-day-header {
+  opacity: 0.8;
+}
+
+.meetingtime-event-time {
+  min-width: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.86);
+  opacity: 1;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.meetingtime-event-title {
+  font-weight: 500;
+}
+
+.meetingtime-overlay-root {
+  background: transparent;
+}
+
+.meetingtime-overlay-backdrop {
+  background-color: rgba(10, 12, 16, 0.92);
+}
+
+.meetingtime-overlay-dialog {
+  width: 700px;
+  padding: 28px 32px;
+  border-radius: 16px;
+  background-color: rgba(28, 32, 40, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  spacing: 16px;
+}
+
+.meetingtime-overlay-heading {
+  font-size: 15px;
+  color: #9aa3b2;
+}
+
+.meetingtime-overlay-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.meetingtime-overlay-meta {
+  font-size: 15px;
+  color: #c2c8d0;
+}
+
+.meetingtime-overlay-countdown {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f5d35c;
+}
+
+.meetingtime-overlay-buttons {
+  spacing: 12px;
+}
+
+.meetingtime-button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.meetingtime-button-compact {
+  padding: 4px 10px;
+  border-radius: 8px;
+  min-height: 24px;
+}
+
+.meetingtime-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.meetingtime-button-default,
+.meetingtime-button-join {
+  background-color: #26a269;
+  border-color: #2dc176;
+  color: #ffffff;
+}
+
+.meetingtime-button-default:hover,
+.meetingtime-button-join:hover {
+  background-color: #2dc176;
+}

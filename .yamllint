@@ -1,0 +1,7 @@
+extends: default
+
+rules:
+  truthy:
+    allowed-values:
+      - "on"
+      - "off"
