@@ -2,7 +2,7 @@
   "name": "MeetingTime",
   "description": "Unmissable full-screen GNOME event alerts",
   "uuid": "meetingtime@danmoz",
-  "version": 4,
+  "version": 5,
   "shell-version": ["45", "46", "47", "48", "49", "50"],
   "url": "https://github.com/danmoz/meetingtime",
   "settings-schema": "org.gnome.shell.extensions.meetingtime"

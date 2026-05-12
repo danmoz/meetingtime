@@ -5,3 +5,5 @@ rules:
     allowed-values:
       - "on"
       - "off"
+      - "true"
+      - "false"

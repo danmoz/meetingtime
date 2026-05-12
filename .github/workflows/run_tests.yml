@@ -5,6 +5,13 @@ on:
   push:
     branches:
       - "**"
+  pull_request:
+
+concurrency:
+  group: >-
+    ${{ github.workflow }}-
+    ${{ github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: true
 
 jobs:
   ci:
