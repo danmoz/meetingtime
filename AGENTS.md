@@ -175,7 +175,7 @@ If you add or rename keys, remember this repo expects schema compilation after i
 - [`README.md`](/home/danm/Git/meetingtime/README.md): user-facing overview and manual install notes
 - [`package.json`](/home/danm/Git/meetingtime/package.json): Node ESM mode marker for syntax checks
 - [`mise.toml`](/home/danm/Git/meetingtime/mise.toml): local install helper task
-- [`.github/workflows/run_tests.yml`](/home/danm/Git/meetingtime/.github/workflows/run_tests.yml): GitHub Actions `run_tests` workflow for formatting, linting, and tests on every push
+- [`.github/workflows/run_tests.yml`](/home/danm/Git/meetingtime/.github/workflows/run_tests.yml): GitHub Actions `run_tests` workflow for formatting, linting, and tests on every push and pull request, with concurrency to avoid duplicate runs
 - [`.github/workflows/ci.yml`](/home/danm/Git/meetingtime/.github/workflows/ci.yml): reusable GitHub Actions CI workflow for formatting, linting, and tests
 - [`.github/workflows/build_release.yml`](/home/danm/Git/meetingtime/.github/workflows/build_release.yml): GitHub Actions `build_release` workflow for tests, packaging, and tagged releases
 - [`mise bump-release`](/home/danm/Git/meetingtime/mise.toml): auto-increments `src/metadata.json`, commits, tags, and pushes the release tag
@@ -253,7 +253,7 @@ Validation for GNOME Shell integration remains primarily manual inside a GNOME S
 ## CI / Release Packaging
 
 [`.github/workflows/ci.yml`](/home/danm/Git/meetingtime/.github/workflows/ci.yml) contains the shared formatting, linting, and test jobs, which run in parallel and use `awalsh128/cache-apt-pkgs-action` for the test job.
-[`.github/workflows/run_tests.yml`](/home/danm/Git/meetingtime/.github/workflows/run_tests.yml) calls the reusable CI workflow on every branch push.
+[`.github/workflows/run_tests.yml`](/home/danm/Git/meetingtime/.github/workflows/run_tests.yml) calls the reusable CI workflow on every branch push and pull request, using concurrency to collapse duplicate reports for the same commit.
 [`.github/workflows/build_release.yml`](/home/danm/Git/meetingtime/.github/workflows/build_release.yml) calls the reusable CI workflow, then packages the extension and publishes tagged releases after a `v*` tag push, using `awalsh128/cache-apt-pkgs-action` for packaging.
 
 `mise run build-extension` copies `src/` into a temporary build directory and removes `lib/tests` before packaging so test-only JavaScript is not shipped in the extension zip.
