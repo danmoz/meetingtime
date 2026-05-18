@@ -20,6 +20,20 @@ function _soundPath(filename) {
   return GLib.build_filenamev([_soundDir(), filename]);
 }
 
+function _loadExtensionMetadata() {
+  try {
+    const metadataPath = GLib.build_filenamev([_extensionRoot(), "metadata.json"]);
+    const file = Gio.File.new_for_path(metadataPath);
+    const [ok, contents] = file.load_contents(null);
+    if (!ok) return {};
+
+    return JSON.parse(imports.byteArray.toString(contents));
+  } catch (error) {
+    logError(error, "[MeetingTime] Failed to load extension metadata");
+    return {};
+  }
+}
+
 function _loadSoundOptions() {
   const options = [
     {
@@ -681,7 +695,7 @@ export default class MeetingTimePreferences extends ExtensionPreferences {
       noEventsDropDown,
     );
 
-    const metadata = this.metadata ?? {};
+    const metadata = _loadExtensionMetadata();
     const aboutGroup = new Adw.PreferencesGroup({
       title: metadata.name ?? "MeetingTime",
       description: metadata.description ?? "",

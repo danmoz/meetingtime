@@ -56,10 +56,12 @@ gnome-extensions pack --force --extra-source={{ env.MEETINGTIME_BUILD_DIR }}/lib
 
 [tasks.install-extension]
 description = "Build an installable extension package"
+depends = ["build-extension"]
 run = """
 rm -rf {{ env.MEETINGTIME_INSTALL_DIR }} 2>/dev/null || true
-rm -rf ~/.cache/meetingtime@danmoz.shell-extension 2>/dev/null || true
-gnome-extensions install --force meetingtime@danmoz.shell-extension.zip
+mkdir -p "$(dirname "{{ env.MEETINGTIME_INSTALL_DIR }}")"
+unzip -q -o meetingtime@danmoz.shell-extension.zip -d "{{ env.MEETINGTIME_INSTALL_DIR }}"
+glib-compile-schemas "{{ env.MEETINGTIME_INSTALL_DIR }}/schemas"
 """
 
 [tasks.uninstall-extension]
@@ -74,7 +76,7 @@ rm -rf ~/.cache/meetingtime 2>/dev/null || true
 [tasks.debug-extension]
 description = "Install the extension and start a nested GNOME Shell debug session"
 usage = 'flag "--reinstall" help="Remove saved settings, cache, and installed extension before starting"'
-depends = ["build-extension", "install-extension"]
+depends = ["install-extension"]
 run = """
 # Requires `sudo dnf install mutter-devkit`
 dbus-run-session -- gnome-shell --devkit 2>&1 | tee session.log
