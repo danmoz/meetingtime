@@ -42,14 +42,14 @@
 
     <key name="alert-horizon-hours" type="i">
       <range min="1" max="48"/>
-      <default>48</default>
+      <default>14</default>
       <summary>Refresh window (hours)</summary>
       <description>How far ahead to query events when refreshing.</description>
     </key>
 
     <key name="refresh-interval-minutes" type="i">
-      <range min="1" max="60"/>
-      <default>1</default>
+      <range min="5" max="60"/>
+      <default>3</default>
       <summary>Refresh interval (minutes)</summary>
       <description>How frequently to refresh calendar data.</description>
     </key>
