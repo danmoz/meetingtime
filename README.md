@@ -39,19 +39,6 @@ MeetingTime will automatically detect calendars you've set up in **Settings -> O
 
 To select which calendars to enable alerts for, click **Settings** in the indicator dropdown menu.
 
-## Notes
-
-- Event links are extracted from event URL/location/description fields and
-  common providers are prioritized (Zoom, Meet, Teams, Webex, etc.).
-- The Google Meet description parsing logic is adapted from GNOME Calendar's
-  open-source implementation for compatibility with Google Calendar event
-  bodies.
-- A small JSON startup snapshot is stored under the user cache directory so the UI
-  can show the previous event snapshot while the first live sync is still
-  running.
-- The extension listens for `PrepareForSleep` resume transitions and refreshes
-  schedules after wake.
-
 ## Attribution
 
 - Special thanks to the [GNOME Calendar](https://apps.gnome.org/Calendar/) project
